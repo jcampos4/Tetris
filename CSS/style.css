@@ -5,4 +5,5 @@
 #tablero td{
     border:0;
     padding: 7px;
+    border-bottom: 1px;
 }
