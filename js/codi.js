@@ -1,5 +1,56 @@
+$(document).ready(function(){
+    crearTauler(tetris.espaiJoc);
+//setInterval(movimentAutomatic(),100);
+});
+
 var tetris = {
-    pecesQueVanSorgint : new Array()
+    pecesQueVanSorgint : new Array(),
+    espaiJoc:   [
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0]
+                ],
+                puntuacioJugador:0,
+                puntuacioMaximaAconseguida:0,
+                pecaVigent:0,
+                seguentPeca:0,
+                contadorPeca: new Array(),
+                intervalTemps:0,
+                //iniciar juego
+                inicialitzarJoc: function(){
+
+
+                },
+                // siguiente pieza en salir de forma aleatoria
+                seguentpeca: function(){
+                    GeneraPecaAleatoria();
+                },
+                //movimiento automatico del juego
+                movimentAutomatic: function(){
+                   
+                }
 }
 var Peca = function(forma,color,posX,posY){
     this.forma = forma;
@@ -26,8 +77,8 @@ Peca.prototype.moureDreta = function(){
     }
 };
 
-function GeneraPecaAleatoria()
-{ var peces = [
+function GeneraPecaAleatoria(){ 
+    var peces = [
         [[[0,0,0,0],[0,1,1,0],[0,1,1,0],[0,0,0,0]],"groc"],
         [[[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]],"lila"],
         [[[0,0,0,0],[0,1,1,0],[1,1,0,0],[0,0,0,0]],"verd"],
@@ -38,10 +89,20 @@ function GeneraPecaAleatoria()
   var numeroAleatori = Math.round(Math.random()*6);                      
   return peces[numeroAleatori];     
 }
+function crearTauler(espaiJoc){
+    console.log(espaiJoc);
+    console.log(espaiJoc.length);
+    for(var i = 0; i < espaiJoc.length; i++){
+        console.log("primerFor");
+        
+        $("#tablero").append("<tr>");
+        for(var j = 0; j <espaiJoc[i].length; j++){
+            //console.log("sgundoFor");
+            $("#tablero").append("<td>"+espaiJoc[i][j]+"</td>");
+        }
+        $("#tablero").append("</tr>");
+    }
+    return espaiJoc;
 
-console.log(GeneraPecaAleatoria());
-console.log(GeneraPecaAleatoria());
-console.log(GeneraPecaAleatoria());
-console.log(GeneraPecaAleatoria());
-console.log(GeneraPecaAleatoria());
-console.log(GeneraPecaAleatoria());
+}
+

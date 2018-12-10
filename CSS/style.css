@@ -1,0 +1,7 @@
+#tablero{
+    height: 20px;
+}
+#tablero td{
+    border:0;
+    padding: 7px;
+}
