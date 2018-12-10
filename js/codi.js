@@ -1,5 +1,8 @@
 $(document).ready(function(){
     crearTauler(tetris.espaiJoc);
+    puntuacio(tetris.puntuacioJugador);
+    puntMax(tetris.puntuacioMaximaAconseguida);
+    nivell(tetris.nivell);
 //setInterval(movimentAutomatic(),100);
 });
 
@@ -38,6 +41,7 @@ var tetris = {
                 seguentPeca:0,
                 contadorPeca: new Array(),
                 intervalTemps:0,
+                nivell:1,
                 //iniciar juego
                 inicialitzarJoc: function(){
 
@@ -106,3 +110,17 @@ function crearTauler(espaiJoc){
 
 }
 
+function puntuacio(puntuacioJugador){
+    $("#puntuacio").append("Puntuacio: " + puntuacioJugador);
+
+}
+
+function puntMax(puntuacioMaximaAconseguida){
+    $("#puntMax").append("Puntuacio Maxima: " + puntuacioMaximaAconseguida);
+
+}
+
+function nivell(puntuacioMaximaAconseguida){
+    $("#nivell").append("Nivell: " + puntuacioMaximaAconseguida);
+
+}

@@ -1,5 +1,6 @@
 #tablero{
     height: 20px;
+    float: left;
 }
 #tablero td{
     border:0;
