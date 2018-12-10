@@ -158,6 +158,7 @@ function nivell(puntuacioMaximaAconseguida){
 }
 
 $(document).ready(function(){
+    
     crearTauler(tetris.espaiJoc);
     puntuacio(tetris.puntuacioJugador);
     puntMax(tetris.puntuacioMaximaAconseguida);
@@ -175,13 +176,8 @@ $(document).ready(function(){
 
     peca = new Peca(GeneraPecaAleatoria()[0],GeneraPecaAleatoria()[1],5,25)
     console.log(peca);
-    peca.moureAvall()
-    peca.moureAvall()
-    peca.moureAvall()
-    peca.moureAvall()
-    peca.moureAvall()
-    peca.moureAvall()
-
+    peca.moureAvall();
+    
 
  
 });
