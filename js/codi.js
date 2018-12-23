@@ -28,10 +28,10 @@ var tetris = {
                     [0,0,0,0,0,0,0,0,0,0]
                 ],
                 puntuacioJugador:0,
-                puntuacioMaximaAconseguida:0,
+                puntuacioMaximaAconseguida: 0,
                 pecaVigent: new Array(),
                 seguentPeca: new Array(),
-                contadorPeca: 0,
+                contadorPeca: 1,
                 intervalTemps:1000,
                 nivell:1,
                 //iniciar joc
@@ -44,11 +44,37 @@ var tetris = {
                     intervalSet = setInterval(function(){tetris.movimentAutomatic(pecaVigent)},this.intervalTemps);
                     this.pintarPiezaTablero(pecaVigent)
                     crearTauler(tetris.espaiJoc);
+                    var pa = GeneraPecaAleatoria();
+                    tetris.seguentPeca = new Peca(pa[0],pa[1]);
+                    //document.write(p.pintar());
+                    document.getElementById("original").innerHTML = tetris.seguentPeca.pintar();
                 },
                 // seguent peça en sortir de forma aleatoria
                 seguentpeca: function(){
+
+                    tetris.puntuacioJugador +=10;
+                    puntuacio(tetris.puntuacioJugador);
+                    tetris.puntuacioMaximaAconseguida = tetris.puntuacioJugador;
+                    puntMax(tetris.puntuacioMaximaAconseguida);
                     var piezaAlea = GeneraPecaAleatoria();
                     pecaVigent = new Peca(piezaAlea[0], piezaAlea[1], 1, 3);
+                    tetris.contadorPeca++;
+                    console.log(tetris.contadorPeca);
+                    
+                    if(tetris.contadorPeca == 10){
+                            tetris.nivell++;
+                            nivell(tetris.nivell);
+                            tetris.puntuacioJugador +=20;
+                            puntuacio(tetris.puntuacioJugador);
+                            tetris.contadorPeca=0
+                            clearInterval(intervalSet)
+                            this.intervalTemps = this.intervalTemps -100;
+                            intervalSet = setInterval(function(){tetris.movimentAutomatic(pecaVigent)},this.intervalTemps);
+                    }
+                    var pa = GeneraPecaAleatoria();
+                    tetris.seguentPeca = new Peca(pa[0],pa[1]);
+                    //document.write(p.pintar());
+                    document.getElementById("original").innerHTML = tetris.seguentPeca.pintar();
                 },
                 //moviment automatic del joc
                 movimentAutomatic: function(pecaVigent){
@@ -60,7 +86,6 @@ var tetris = {
                     }else{
                        tetris.seguentpeca();
                     }
-                    keyPress()
                     // console.log(pecaVigent)
                     netejarTauler(this.espaiJoc);
                     this.pintarPiezaTablero(pecaVigent);
@@ -108,17 +133,17 @@ Peca.prototype.moureEsquerra = function(){
 
 
 Peca.prototype.moureDreta = function(){
- 
-    
-    if(this.posY<=8){
+    if(this.posY<7){
         this.posY++;
         console.log("esto es la posicion" + this.posY)
     }
 };
 
 Peca.prototype.moureAvall = function(posY){
-    while(posX>0){
+    if(pecaVigent.posicioValida()== true){
         this.posX++;
+        tetris.puntuacioJugador++;
+        puntuacio(tetris.puntuacioJugador);
     }
         // console.log(posY);
         
@@ -143,17 +168,8 @@ Peca.prototype.posicioValida = function(posX,posY){
     }
 
     for(var i = 0; i < pecaVigent.forma.length; i++ ){
-        
-        console.log();
-        
-
         for(var j = 0 ;j < pecaVigent.forma[i].length;j++ ){
-            // console.log("espai de joc"+tetris.espaiJoc[i][j])
             if(pecaVigent.forma[i][j] == 1){
-               
-                console.log(this.posX+i)
-
-
                 if((this.posX+i == 24)){
 
                     console.log("false1");
@@ -164,23 +180,19 @@ Peca.prototype.posicioValida = function(posX,posY){
                     console.log("false2");
                     return false;
                 }
-                console.log(altura)
+        
                 for(var p = 0; p < tetris.espaiJoc.length; p++){
                     for(var k = 0; k < tetris.espaiJoc[p].length; k++){ 
                         if((tetris.espaiJoc[p][k] == 1)&&(this.posX+altura == p)){
                             console.log("false3")
                             return false;
                         }
-                        
                     }
                 }
             }
         }
-        
         console.log("true");
-        
     }
-    // console.log("altura "+altura);
         return true;
 };
 
@@ -219,18 +231,6 @@ Peca.prototype.rotarAntihorari = function () {
 
 }  
 
-function keyPress(){
-    $("body").keydown(function(e) {
-        if(e.keyCode == 37) { // esquerra
-            pecaVigent.moureEsquerra();
-            e.stopPropagation();
-        }
-        if(e.keyCode == 39) { // dreta
-            pecaVigent.moureDreta();
-            e.stopPropagation();
-        }
-    });
-};
 
 function GeneraPecaAleatoria(){ 
     var peces = [
@@ -256,7 +256,6 @@ function crearTauler(espaiJoc){
         }
         $("#tablero").append("</tr>");
     }
-
 }
 //funció que neteja el tauler per a que no deixi rastre les peçes
 function netejarTauler(espaiJoc){
@@ -282,17 +281,20 @@ function insertarpeca(peca){
 }
 
 function puntuacio(puntuacioJugador){
+    $( "#puntuacio" ).empty();
     $("#puntuacio").append("Puntuacio: " + puntuacioJugador);
 
 }
 
 function puntMax(puntuacioMaximaAconseguida){
+    $( "#puntMax" ).empty();
     $("#puntMax").append("Puntuacio Maxima: " + puntuacioMaximaAconseguida);
 
 }
 
-function nivell(puntuacioMaximaAconseguida){
-    $("#nivell").append("Nivell: " + puntuacioMaximaAconseguida);
+function nivell(nivell){
+    $( "#nivell" ).empty();
+    $("#nivell").append("Nivell: " + nivell);
 
 }
 
@@ -302,15 +304,12 @@ $(document).ready(function(){
     puntMax(tetris.puntuacioMaximaAconseguida);
     nivell(tetris.nivell);
    
-    var pa = GeneraPecaAleatoria();
-    var p = new Peca(pa[0],pa[1]);
-    //document.write(p.pintar());
-    document.getElementById("original").innerHTML = p.pintar();
+
     
     //p.rotarHorari();
     //document.getElementById("giradaHora").innerHTML = p.pintar();
-    p.rotarAntihorari();
-    document.getElementById("giradaAntihora").innerHTML = p.pintar();
+    // p.rotarAntihorari();
+    // document.getElementById("giradaAntihora").innerHTML = p.pintar();
     
     // peca = new Peca(GeneraPecaAleatoria()[0],GeneraPecaAleatoria()[1],5,25)
     //console.log(peca);
@@ -318,5 +317,26 @@ $(document).ready(function(){
     
     tetris.inicialitzarJoc();
     //crearTauler(tetris.espaiJoc);
-  
+    $("body").keydown(function(e) {
+        if(e.keyCode == 37) { // esquerra
+            pecaVigent.moureEsquerra();
+            e.stopPropagation();
+        }
+        if(e.keyCode == 38) { // amunt
+            pecaVigent.rotarHorari();
+            e.stopPropagation();
+        }
+        if(e.keyCode == 39) { // dreta
+            pecaVigent.moureDreta();
+            e.stopPropagation();
+        }
+        if(e.keyCode == 40) { // avaix
+            pecaVigent.moureAvall();
+            e.stopPropagation();
+        }
+        if(e.keyCode == 32) { // barra espaciadora
+            pecaVigent.rotarAntihorari();
+            e.stopPropagation();
+        }
+    });
 });
