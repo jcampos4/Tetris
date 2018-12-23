@@ -148,7 +148,7 @@ Peca.prototype.moureAvall = function(posY){
         // console.log(posY);
         
 };
-
+// esta es la funcio que determina si la posicio per moures es valida o no
 Peca.prototype.posicioValida = function(posX,posY){
     var altura = 0;
     var trobat = false;
